@@ -18,7 +18,7 @@ module.exports = async (config, options, targetOptions) => {
         extensions: ['js', 'ts'],
       }),
       new WebpackNotifierPlugin({
-        title: 'Live Log',
+        title: 'Life Log',
         contentImage: path.join(__dirname, 'logo-jhipster.png'),
       })
     );

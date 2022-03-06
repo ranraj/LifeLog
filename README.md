@@ -1,4 +1,4 @@
-# LiveLog
+# LifeLog
 
 This application was generated using JHipster 7.6.0, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v7.6.0](https://www.jhipster.tech/documentation-archive/v7.6.0).
 
@@ -120,7 +120,7 @@ docker-compose -f src/main/docker/jhipster-control-center.yml up
 
 ### Packaging as jar
 
-To build the final jar and optimize the LiveLog application for production, run:
+To build the final jar and optimize the LifeLog application for production, run:
 
 ```
 ./mvnw -Pprod clean verify
