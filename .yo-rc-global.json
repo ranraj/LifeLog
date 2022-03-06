@@ -1,7 +1,7 @@
 {
   "generator-jhipster:7.6.0": {
     "promptValues": {
-      "packageName": "com.livelog.myapp",
+      "packageName": "com.lifelog.myapp",
       "nativeLanguage": "en"
     }
   }

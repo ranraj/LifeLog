@@ -1,6 +1,6 @@
 {
-  "name": "LiveLog",
-  "short_name": "LiveLog",
+  "name": "LifeLog",
+  "short_name": "LifeLog",
   "icons": [
     {
       "src": "./content/images/jhipster_family_member_0_head-192.png",

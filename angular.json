@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "live-log": {
+    "life-log": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -84,15 +84,15 @@
         "serve": {
           "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
-            "browserTarget": "live-log:build:development",
+            "browserTarget": "life-log:build:development",
             "port": 4200
           },
           "configurations": {
             "production": {
-              "browserTarget": "live-log:build:production"
+              "browserTarget": "life-log:build:production"
             },
             "development": {
-              "browserTarget": "live-log:build:development"
+              "browserTarget": "life-log:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -106,7 +106,7 @@
       }
     }
   },
-  "defaultProject": "live-log",
+  "defaultProject": "life-log",
   "cli": {
     "cache": {
       "enabled": true,
