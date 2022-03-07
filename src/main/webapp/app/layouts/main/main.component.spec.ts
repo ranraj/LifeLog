@@ -49,7 +49,7 @@ describe('MainComponent', () => {
   });
 
   describe('page title', () => {
-    const defaultPageTitle = 'Live Log';
+    const defaultPageTitle = 'Life Log';
     const parentRoutePageTitle = 'parentTitle';
     const childRoutePageTitle = 'childTitle';
     const navigationEnd = new NavigationEnd(1, '', '');
