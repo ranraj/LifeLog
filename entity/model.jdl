@@ -1,0 +1,53 @@
+
+application {
+  config {
+    baseName myApp,
+    applicationType monolith,
+    packageName com.myapp,
+    authenticationType jwt,
+    prodDatabaseType mysql,
+    clientFramework angular
+  }
+  entities *
+}
+
+@filter
+@pageinate
+entity EventLogBook {
+	uuid UUID,
+	createdDate DateTimeFormat,
+    updatedDate DateTimeFormat,
+    name String required,
+    owner User required,
+   	description String required,
+    archieved Boolean 
+}
+@filter
+@pageinate
+entity EventLog {
+	uuid UUID,
+	owner User required,
+    name String, 
+	detail String required,
+    createdDate DateTimeFormat,
+    updatedDate DateTimeFormat
+}
+entity Tags{
+	name String,
+    description String
+}
+entity EventLogType{
+	name String,
+    template String
+}
+
+relationship ManyToOne{
+	EventLogType to EventLog
+}
+relationship OneToMany{
+	EventLogBook to EventLog
+}
+relationship ManyToMany {
+  	EventLog to Tags
+}
+    
