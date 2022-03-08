@@ -1,0 +1,32 @@
+{
+  "applications": ["LifeLog"],
+  "changelogDate": "20220308085553",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "tags",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Tags",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "eventLog",
+      "otherEntityRelationshipName": "tags",
+      "ownerSide": false,
+      "relationshipName": "eventLog",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "service": "no"
+}

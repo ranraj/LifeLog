@@ -1,0 +1,57 @@
+{
+  "applications": ["LifeLog"],
+  "changelogDate": "20220308085551",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "event_log_book",
+  "fields": [
+    {
+      "fieldName": "uuid",
+      "fieldType": "UUID"
+    },
+    {
+      "fieldName": "createdDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "updatedDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "archieved",
+      "fieldType": "Boolean"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "EventLogBook",
+  "pageinate": true,
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "eventLog",
+      "otherEntityRelationshipName": "eventLogBook",
+      "relationshipName": "eventLog",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityField": "login",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "eventLogBook",
+      "relationshipName": "user",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

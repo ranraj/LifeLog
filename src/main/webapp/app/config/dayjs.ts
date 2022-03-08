@@ -4,6 +4,7 @@ import duration from 'dayjs/esm/plugin/duration';
 import relativeTime from 'dayjs/esm/plugin/relativeTime';
 
 // jhipster-needle-i18n-language-dayjs-imports - JHipster will import languages from dayjs here
+import 'dayjs/esm/locale/en';
 
 // DAYJS CONFIGURATION
 dayjs.extend(customParseFormat);

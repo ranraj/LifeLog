@@ -1,0 +1,65 @@
+{
+  "applications": ["LifeLog"],
+  "changelogDate": "20220308085552",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "event_log",
+  "fields": [
+    {
+      "fieldName": "uuid",
+      "fieldType": "UUID"
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "detail",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "createdDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "updatedDate",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "EventLog",
+  "pageinate": true,
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "login",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "eventLog",
+      "relationshipName": "user",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "tags",
+      "otherEntityRelationshipName": "eventLog",
+      "ownerSide": true,
+      "relationshipName": "tags",
+      "relationshipType": "many-to-many"
+    },
+    {
+      "otherEntityName": "eventLogBook",
+      "otherEntityRelationshipName": "eventLog",
+      "relationshipName": "eventLogBook",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "eventLogType",
+      "otherEntityRelationshipName": "eventLog",
+      "relationshipName": "eventLogType",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "serviceClass"
+}

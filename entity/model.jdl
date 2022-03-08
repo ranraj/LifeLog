@@ -1,9 +1,9 @@
 
 application {
   config {
-    baseName myApp,
+    baseName LifeLog,
     applicationType monolith,
-    packageName com.myapp,
+    packageName com.ols.lifelog,
     authenticationType jwt,
     prodDatabaseType mysql,
     clientFramework angular
@@ -14,40 +14,47 @@ application {
 @filter
 @pageinate
 entity EventLogBook {
-	uuid UUID,
-	createdDate DateTimeFormat,
-    updatedDate DateTimeFormat,
-    name String required,
-    owner User required,
-   	description String required,
-    archieved Boolean 
+  uuid UUID,
+  createdDate LocalDate,
+  updatedDate LocalDate,
+  name String required,  
+  description String required,
+  archieved Boolean 
 }
+
 @filter
 @pageinate
 entity EventLog {
-	uuid UUID,
-	owner User required,
-    name String, 
-	detail String required,
-    createdDate DateTimeFormat,
-    updatedDate DateTimeFormat
+  uuid UUID,  
+  name String, 
+  detail String required,
+  createdDate LocalDate,
+  updatedDate LocalDate
 }
 entity Tags{
-	name String,
-    description String
+  name String,
+  description String
 }
 entity EventLogType{
-	name String,
-    template String
+  name String,
+  template String
+}
+
+relationship ManyToOne {
+  EventLogBook{user(login)} to User   
+}
+
+relationship ManyToOne {
+  EventLog{user(login)} to User  
 }
 
 relationship ManyToOne{
-	EventLogType to EventLog
+  EventLogType to EventLog
 }
 relationship OneToMany{
-	EventLogBook to EventLog
+  EventLogBook to EventLog
 }
 relationship ManyToMany {
-  	EventLog to Tags
+    EventLog to Tags
 }
     

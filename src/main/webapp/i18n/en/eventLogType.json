@@ -1,0 +1,26 @@
+{
+  "lifeLogApp": {
+    "eventLogType": {
+      "home": {
+        "title": "Event Log Types",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Event Log Type",
+        "createOrEditLabel": "Create or edit a Event Log Type",
+        "notFound": "No Event Log Types found"
+      },
+      "created": "A new Event Log Type is created with identifier {{ param }}",
+      "updated": "A Event Log Type is updated with identifier {{ param }}",
+      "deleted": "A Event Log Type is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Event Log Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Event Log Type"
+      },
+      "id": "ID",
+      "name": "Name",
+      "template": "Template",
+      "eventLog": "Event Log"
+    }
+  }
+}

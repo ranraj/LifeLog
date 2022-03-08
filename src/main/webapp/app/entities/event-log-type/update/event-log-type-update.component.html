@@ -1,0 +1,61 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-event-log-type-heading"
+        data-cy="EventLogTypeCreateUpdateHeading"
+        jhiTranslate="lifeLogApp.eventLogType.home.createOrEditLabel"
+      >
+        Create or edit a Event Log Type
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="lifeLogApp.eventLogType.name" for="field_name">Name</label>
+          <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="lifeLogApp.eventLogType.template" for="field_template">Template</label>
+          <input type="text" class="form-control" name="template" id="field_template" data-cy="template" formControlName="template" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="lifeLogApp.eventLogType.eventLog" for="field_eventLog">Event Log</label>
+          <select class="form-control" id="field_eventLog" data-cy="eventLog" name="eventLog" formControlName="eventLog">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="eventLogOption.id === editForm.get('eventLog')!.value?.id ? editForm.get('eventLog')!.value : eventLogOption"
+              *ngFor="let eventLogOption of eventLogsSharedCollection; trackBy: trackEventLogById"
+            >
+              {{ eventLogOption.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

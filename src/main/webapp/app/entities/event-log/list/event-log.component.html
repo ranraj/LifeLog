@@ -1,0 +1,103 @@
+<div>
+  <h2 id="page-heading" data-cy="EventLogHeading">
+    <span jhiTranslate="lifeLogApp.eventLog.home.title">Event Logs</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="lifeLogApp.eventLog.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-event-log"
+        [routerLink]="['/event-log/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="lifeLogApp.eventLog.home.createLabel"> Create a new Event Log </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="eventLogs?.length === 0">
+    <span jhiTranslate="lifeLogApp.eventLog.home.notFound">No eventLogs found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="eventLogs && eventLogs.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr>
+          <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
+          <th scope="col"><span jhiTranslate="lifeLogApp.eventLog.uuid">Uuid</span></th>
+          <th scope="col"><span jhiTranslate="lifeLogApp.eventLog.name">Name</span></th>
+          <th scope="col"><span jhiTranslate="lifeLogApp.eventLog.detail">Detail</span></th>
+          <th scope="col"><span jhiTranslate="lifeLogApp.eventLog.createdDate">Created Date</span></th>
+          <th scope="col"><span jhiTranslate="lifeLogApp.eventLog.updatedDate">Updated Date</span></th>
+          <th scope="col"><span jhiTranslate="lifeLogApp.eventLog.user">User</span></th>
+          <th scope="col"><span jhiTranslate="lifeLogApp.eventLog.tags">Tags</span></th>
+          <th scope="col"><span jhiTranslate="lifeLogApp.eventLog.eventLogBook">Event Log Book</span></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let eventLog of eventLogs; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/event-log', eventLog.id, 'view']">{{ eventLog.id }}</a>
+          </td>
+          <td>{{ eventLog.uuid }}</td>
+          <td>{{ eventLog.name }}</td>
+          <td>{{ eventLog.detail }}</td>
+          <td>{{ eventLog.createdDate | formatMediumDate }}</td>
+          <td>{{ eventLog.updatedDate | formatMediumDate }}</td>
+          <td>
+            {{ eventLog.user?.login }}
+          </td>
+          <td>
+            <span *ngFor="let tags of eventLog.tags; let last = last">
+              <a class="form-control-static" [routerLink]="['/tags', tags.id, 'view']">{{ tags.id }}</a
+              >{{ last ? '' : ', ' }}
+            </span>
+          </td>
+          <td>
+            <div *ngIf="eventLog.eventLogBook">
+              <a [routerLink]="['/event-log-book', eventLog.eventLogBook?.id, 'view']">{{ eventLog.eventLogBook?.id }}</a>
+            </div>
+          </td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/event-log', eventLog.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/event-log', eventLog.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(eventLog)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

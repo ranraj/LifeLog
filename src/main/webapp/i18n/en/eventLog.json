@@ -1,0 +1,32 @@
+{
+  "lifeLogApp": {
+    "eventLog": {
+      "home": {
+        "title": "Event Logs",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Event Log",
+        "createOrEditLabel": "Create or edit a Event Log",
+        "notFound": "No Event Logs found"
+      },
+      "created": "A new Event Log is created with identifier {{ param }}",
+      "updated": "A Event Log is updated with identifier {{ param }}",
+      "deleted": "A Event Log is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Event Log {{ id }}?"
+      },
+      "detail": {
+        "title": "Event Log"
+      },
+      "id": "ID",
+      "uuid": "Uuid",
+      "name": "Name",
+      "detail": "Detail",
+      "createdDate": "Created Date",
+      "updatedDate": "Updated Date",
+      "user": "User",
+      "tags": "Tags",
+      "eventLogBook": "Event Log Book",
+      "eventLogType": "Event Log Type"
+    }
+  }
+}

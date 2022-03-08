@@ -1,0 +1,56 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="eventLogBook">
+      <h2 data-cy="eventLogBookDetailsHeading"><span jhiTranslate="lifeLogApp.eventLogBook.detail.title">Event Log Book</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ eventLogBook.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="lifeLogApp.eventLogBook.uuid">Uuid</span></dt>
+        <dd>
+          <span>{{ eventLogBook.uuid }}</span>
+        </dd>
+        <dt><span jhiTranslate="lifeLogApp.eventLogBook.createdDate">Created Date</span></dt>
+        <dd>
+          <span>{{ eventLogBook.createdDate | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="lifeLogApp.eventLogBook.updatedDate">Updated Date</span></dt>
+        <dd>
+          <span>{{ eventLogBook.updatedDate | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="lifeLogApp.eventLogBook.name">Name</span></dt>
+        <dd>
+          <span>{{ eventLogBook.name }}</span>
+        </dd>
+        <dt><span jhiTranslate="lifeLogApp.eventLogBook.description">Description</span></dt>
+        <dd>
+          <span>{{ eventLogBook.description }}</span>
+        </dd>
+        <dt><span jhiTranslate="lifeLogApp.eventLogBook.archieved">Archieved</span></dt>
+        <dd>
+          <span>{{ eventLogBook.archieved }}</span>
+        </dd>
+        <dt><span jhiTranslate="lifeLogApp.eventLogBook.user">User</span></dt>
+        <dd>
+          <span>{{ eventLogBook.user?.login }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/event-log-book', eventLogBook.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

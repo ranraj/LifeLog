@@ -1,0 +1,65 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="eventLog">
+      <h2 data-cy="eventLogDetailsHeading"><span jhiTranslate="lifeLogApp.eventLog.detail.title">Event Log</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ eventLog.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="lifeLogApp.eventLog.uuid">Uuid</span></dt>
+        <dd>
+          <span>{{ eventLog.uuid }}</span>
+        </dd>
+        <dt><span jhiTranslate="lifeLogApp.eventLog.name">Name</span></dt>
+        <dd>
+          <span>{{ eventLog.name }}</span>
+        </dd>
+        <dt><span jhiTranslate="lifeLogApp.eventLog.detail">Detail</span></dt>
+        <dd>
+          <span>{{ eventLog.detail }}</span>
+        </dd>
+        <dt><span jhiTranslate="lifeLogApp.eventLog.createdDate">Created Date</span></dt>
+        <dd>
+          <span>{{ eventLog.createdDate | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="lifeLogApp.eventLog.updatedDate">Updated Date</span></dt>
+        <dd>
+          <span>{{ eventLog.updatedDate | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="lifeLogApp.eventLog.user">User</span></dt>
+        <dd>
+          <span>{{ eventLog.user?.login }}</span>
+        </dd>
+        <dt><span jhiTranslate="lifeLogApp.eventLog.tags">Tags</span></dt>
+        <dd>
+          <span *ngFor="let tags of eventLog.tags; let last = last">
+            <a [routerLink]="['/tags', tags?.id, 'view']">{{ tags.id }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
+        </dd>
+        <dt><span jhiTranslate="lifeLogApp.eventLog.eventLogBook">Event Log Book</span></dt>
+        <dd>
+          <div *ngIf="eventLog.eventLogBook">
+            <a [routerLink]="['/event-log-book', eventLog.eventLogBook?.id, 'view']">{{ eventLog.eventLogBook?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/event-log', eventLog.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,92 @@
+<div>
+  <h2 id="page-heading" data-cy="EventLogBookHeading">
+    <span jhiTranslate="lifeLogApp.eventLogBook.home.title">Event Log Books</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="lifeLogApp.eventLogBook.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-event-log-book"
+        [routerLink]="['/event-log-book/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="lifeLogApp.eventLogBook.home.createLabel"> Create a new Event Log Book </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="eventLogBooks?.length === 0">
+    <span jhiTranslate="lifeLogApp.eventLogBook.home.notFound">No eventLogBooks found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="eventLogBooks && eventLogBooks.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr>
+          <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
+          <th scope="col"><span jhiTranslate="lifeLogApp.eventLogBook.uuid">Uuid</span></th>
+          <th scope="col"><span jhiTranslate="lifeLogApp.eventLogBook.createdDate">Created Date</span></th>
+          <th scope="col"><span jhiTranslate="lifeLogApp.eventLogBook.updatedDate">Updated Date</span></th>
+          <th scope="col"><span jhiTranslate="lifeLogApp.eventLogBook.name">Name</span></th>
+          <th scope="col"><span jhiTranslate="lifeLogApp.eventLogBook.description">Description</span></th>
+          <th scope="col"><span jhiTranslate="lifeLogApp.eventLogBook.archieved">Archieved</span></th>
+          <th scope="col"><span jhiTranslate="lifeLogApp.eventLogBook.user">User</span></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let eventLogBook of eventLogBooks; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/event-log-book', eventLogBook.id, 'view']">{{ eventLogBook.id }}</a>
+          </td>
+          <td>{{ eventLogBook.uuid }}</td>
+          <td>{{ eventLogBook.createdDate | formatMediumDate }}</td>
+          <td>{{ eventLogBook.updatedDate | formatMediumDate }}</td>
+          <td>{{ eventLogBook.name }}</td>
+          <td>{{ eventLogBook.description }}</td>
+          <td>{{ eventLogBook.archieved }}</td>
+          <td>
+            {{ eventLogBook.user?.login }}
+          </td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/event-log-book', eventLogBook.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/event-log-book', eventLogBook.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(eventLogBook)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
