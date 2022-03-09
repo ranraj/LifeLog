@@ -2,6 +2,12 @@
   <h2 id="page-heading" data-cy="EventLogHeading">
     <span jhiTranslate="lifeLogApp.eventLog.home.title">Event Logs</span>
 
+    <div class="row m-3 mt-5">
+      <p class="my-auto lead">Search :</p>
+      <input [(ngModel)]="filterEventLogs" (ngModelChange)="filterAndSortEventLogs()" class="mx-3 px-2 form-control w-50" type="text" />
+      <button class="mx-2 btn btn-dark" (click)="onClear()">Clear</button>
+    </div>
+
     <div class="d-flex justify-content-end">
       <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
@@ -45,7 +51,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let eventLog of eventLogs; trackBy: trackId" data-cy="entityTable">
+        <tr *ngFor="let eventLog of filteredAndSortedEventLogs; trackBy: trackId" data-cy="entityTable">
           <td>
             <a [routerLink]="['/event-log', eventLog.id, 'view']">{{ eventLog.id }}</a>
           </td>
