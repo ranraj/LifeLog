@@ -28,65 +28,68 @@
     <span jhiTranslate="lifeLogApp.eventLogBook.home.notFound">No eventLogBooks found</span>
   </div>
 
-  <div class="table-responsive" id="entities" *ngIf="eventLogBooks && eventLogBooks.length > 0">
-    <table class="table table-striped" aria-describedby="page-heading">
-      <thead>
-        <tr>
-          <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
-          <th scope="col"><span jhiTranslate="lifeLogApp.eventLogBook.uuid">Uuid</span></th>
-          <th scope="col"><span jhiTranslate="lifeLogApp.eventLogBook.createdDate">Created Date</span></th>
-          <th scope="col"><span jhiTranslate="lifeLogApp.eventLogBook.updatedDate">Updated Date</span></th>
-          <th scope="col"><span jhiTranslate="lifeLogApp.eventLogBook.name">Name</span></th>
-          <th scope="col"><span jhiTranslate="lifeLogApp.eventLogBook.description">Description</span></th>
-          <th scope="col"><span jhiTranslate="lifeLogApp.eventLogBook.archieved">Archieved</span></th>
-          <th scope="col"><span jhiTranslate="lifeLogApp.eventLogBook.user">User</span></th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let eventLogBook of eventLogBooks; trackBy: trackId" data-cy="entityTable">
-          <td>
-            <a [routerLink]="['/event-log-book', eventLogBook.id, 'view']">{{ eventLogBook.id }}</a>
-          </td>
-          <td>{{ eventLogBook.uuid }}</td>
-          <td>{{ eventLogBook.createdDate | formatMediumDate }}</td>
-          <td>{{ eventLogBook.updatedDate | formatMediumDate }}</td>
-          <td>{{ eventLogBook.name }}</td>
-          <td>{{ eventLogBook.description }}</td>
-          <td>{{ eventLogBook.archieved }}</td>
-          <td>
-            {{ eventLogBook.user?.login }}
-          </td>
-          <td class="text-right">
-            <div class="btn-group">
-              <button
-                type="submit"
-                [routerLink]="['/event-log-book', eventLogBook.id, 'view']"
-                class="btn btn-info btn-sm"
-                data-cy="entityDetailsButton"
-              >
-                <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
-              </button>
+  <div id="entities" *ngIf="eventLogBooks && eventLogBooks.length > 0">
+    <div class="event-log-table page-heading">
+      <div scope="col"><span jhiTranslate="global.field.id">ID</span></div>
+      <div scope="col"><span jhiTranslate="lifeLogApp.eventLogBook.uuid">Uuid</span></div>
+      <div scope="col"><span jhiTranslate="lifeLogApp.eventLogBook.createdDate">Created Date</span></div>
+      <div scope="col"><span jhiTranslate="lifeLogApp.eventLogBook.updatedDate">Updated Date</span></div>
+      <div scope="col"><span jhiTranslate="lifeLogApp.eventLogBook.name">Name</span></div>
+      <div scope="col"><span jhiTranslate="lifeLogApp.eventLogBook.description">Description</span></div>
+      <div scope="col"><span jhiTranslate="lifeLogApp.eventLogBook.archieved">Archieved</span></div>
+      <div scope="col"><span jhiTranslate="lifeLogApp.eventLogBook.user">User</span></div>
+      <div scope="col"></div>
+    </div>
+  </div>
+  <div>
+    <div *ngFor="let eventLogBook of eventLogBooks; trackBy: trackId" data-cy="entityTable">
+      <mat-accordion>
+        <mat-expansion-panel class="event-log-table-wrapper">
+          <mat-expansion-panel-header class="event-log-table">
+            <div class="event-log-table-body">
+              <a [routerLink]="['/event-log-book', eventLogBook.id, 'view']">{{ eventLogBook.id }}</a>
+              <div>{{ eventLogBook.uuid }}</div>
+              <div>{{ eventLogBook.createdDate | formatMediumDate }}</div>
+              <div>{{ eventLogBook.updatedDate | formatMediumDate }}</div>
+              <div>{{ eventLogBook.name }}</div>
+              <div>{{ eventLogBook.description }}</div>
+              <div>{{ eventLogBook.archieved }}</div>
+              <div>
+                {{ eventLogBook.user?.login }}
+              </div>
+              <div class="text-right">
+                <div class="btn-group">
+                  <button
+                    type="submit"
+                    [routerLink]="['/event-log-book', eventLogBook.id, 'view']"
+                    class="btn btn-info btn-sm"
+                    data-cy="entityDetailsButton"
+                  >
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                  </button>
 
-              <button
-                type="submit"
-                [routerLink]="['/event-log-book', eventLogBook.id, 'edit']"
-                class="btn btn-primary btn-sm"
-                data-cy="entityEditButton"
-              >
-                <fa-icon icon="pencil-alt"></fa-icon>
-                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
-              </button>
+                  <button
+                    type="submit"
+                    [routerLink]="['/event-log-book', eventLogBook.id, 'edit']"
+                    class="btn btn-primary btn-sm"
+                    data-cy="entityEditButton"
+                  >
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                  </button>
 
-              <button type="submit" (click)="delete(eventLogBook)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
-                <fa-icon icon="times"></fa-icon>
-                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
-              </button>
+                  <button type="submit" (click)="delete(eventLogBook)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                  </button>
+                </div>
+              </div>
             </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+          </mat-expansion-panel-header>
+          Mat-expansion-panel works!
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
   </div>
 </div>

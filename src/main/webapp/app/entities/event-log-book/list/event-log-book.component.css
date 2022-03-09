@@ -1,0 +1,23 @@
+.event-log-table {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.event-log-table-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.event-log-table-body {
+  display: flex;
+  justify-content: space-between;
+  width: 95%;
+  padding-top: 5px;
+  padding-bottom: 10px;
+}
+
+.page-heading {
+  font-weight: bold;
+}
