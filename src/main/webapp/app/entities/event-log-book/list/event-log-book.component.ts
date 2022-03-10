@@ -9,9 +9,10 @@ import { EventLogBookDeleteDialogComponent } from '../delete/event-log-book-dele
 @Component({
   selector: 'jhi-event-log-book',
   templateUrl: './event-log-book.component.html',
+  styleUrls: ['./event-log-book.component.css'],
 })
 export class EventLogBookComponent implements OnInit {
-  eventLogBooks?: IEventLogBook[];
+  eventLogBooks: IEventLogBook[] = [];
   isLoading = false;
 
   constructor(protected eventLogBookService: EventLogBookService, protected modalService: NgbModal) {}
