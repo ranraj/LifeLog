@@ -13,6 +13,11 @@ import { EventLogDeleteDialogComponent } from '../delete/event-log-delete-dialog
 export class EventLogComponent implements OnInit {
   eventLogs?: IEventLog[];
   isLoading = false;
+  filterEventLogs = '';
+  filteredAndSortedEventLogs?: IEventLog[];
+  orderProp: keyof IEventLog = 'name';
+
+  sample = '';
 
   constructor(protected eventLogService: EventLogService, protected modalService: NgbModal) {}
 
@@ -28,10 +33,13 @@ export class EventLogComponent implements OnInit {
         this.isLoading = false;
       },
     });
+
+    this.filterAndSortEventLogs();
   }
 
   ngOnInit(): void {
     this.loadAll();
+    this.onClear();
   }
 
   trackId(index: number, item: IEventLog): number {
@@ -47,5 +55,16 @@ export class EventLogComponent implements OnInit {
         this.loadAll();
       }
     });
+  }
+
+  filterAndSortEventLogs(): void {
+    this.filteredAndSortedEventLogs = this.eventLogs
+      ?.filter(eventLog => !this.filterEventLogs || eventLog.name?.toLowerCase().includes(this.filterEventLogs.toLowerCase()))
+      .sort();
+  }
+
+  onClear(): void {
+    this.filterEventLogs = '';
+    this.filterAndSortEventLogs();
   }
 }

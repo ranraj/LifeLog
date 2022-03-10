@@ -12,9 +12,10 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'jhi-event-log-book',
   templateUrl: './event-log-book.component.html',
+  styleUrls: ['./event-log-book.component.css'],
 })
 export class EventLogBookComponent implements OnInit {
-  eventLogBooks?: IEventLogBook[];
+  eventLogBooks: IEventLogBook[] = [];
   isLoading = false;
   eventRef?: IEventLogBook;
 
@@ -65,7 +66,6 @@ export class EventLogBookComponent implements OnInit {
   onSubmit(editForm: NgForm): void {
     this.isSaving = true;
     const eventLogBook = this.createFromForm(editForm.value);
-    console.log(eventLogBook);
     if (eventLogBook.id !== undefined) {
       this.subscribeToSaveResponse(this.eventLogBookService.update(eventLogBook));
     } else {
@@ -75,7 +75,7 @@ export class EventLogBookComponent implements OnInit {
   }
 
   protected createFromForm(editForm: IEventLogBook): IEventLogBook {
-    const book = this.eventLogBooks?.find(books => books.uuid === editForm.uuid);
+    const book = this.eventLogBooks.find(books => books.uuid === editForm.uuid);
     return {
       ...new EventLogBook(),
       ...book,
@@ -95,10 +95,8 @@ export class EventLogBookComponent implements OnInit {
   }
 
   protected onSaveSuccess(res: IEventLogBook): void {
-    const book = this.eventLogBooks?.findIndex(books => books.uuid === res.uuid);
-    console.log(book);
-    if (this.eventLogBooks && book !== undefined && book >= 0 && this.eventLogBooks[book]) {
-      console.log('onsucess', res);
+    const book = this.eventLogBooks.findIndex(books => books.uuid === res.uuid);
+    if (book >= 0 && this.eventLogBooks[book]) {
       this.eventLogBooks[book] = res;
     }
   }
