@@ -69,12 +69,7 @@
                 <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
               </button>
 
-              <button
-                type="submit"
-                [routerLink]="['/event-log-book', eventLogBook.id, 'edit']"
-                class="btn btn-primary btn-sm"
-                data-cy="entityEditButton"
-              >
+              <button type="submit" class="btn btn-primary btn-sm" data-cy="entityEditButton" (click)="onEdit(eventLogBook)">
                 <fa-icon icon="pencil-alt"></fa-icon>
                 <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
               </button>
@@ -90,3 +85,56 @@
     </table>
   </div>
 </div>
+
+<!-- Pop up for edit -->
+<ng-template #content let-modal>
+  <div class="modal-header" *ngIf="eventRef">
+    <h4 class="modal-title" id="modal-basic-title">Event log {{ eventRef?.id }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" *ngIf="eventRef">
+    <form (ngSubmit)="onSubmit(editForm)" #editForm="ngForm">
+      <div class="form-group">
+        <label for="uuid">UUID</label>
+        <div class="input-group">
+          <input id="uuid" name="uuid" class="form-control" ngModel="{{ eventRef.uuid }}" readonly />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="datecreated">Created Date</label>
+        <div class="input-group">
+          <input id="datecreated" name="datecreated" class="form-control" ngModel="{{ eventRef.createdDate }}" readonly />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="datecreated">Updated Date</label>
+        <div class="input-group">
+          <input id="updateddate" name="updateddate" class="form-control" ngModel="{{ eventRef.updatedDate }}" readonly />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="name">Name</label>
+        <div class="input-group">
+          <input id="name" class="form-control" name="name" ngModel="{{ eventRef.name }}" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <div class="input-group">
+          <input id="description" name="description" class="form-control" ngModel="{{ eventRef.description }}" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="archieved">Archieved</label>
+        <div class="input-group">
+          <input id="archieved" name="archieved" class="form-control" ngModel="{{ eventRef.archieved }}" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-outline-dark">Save</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
