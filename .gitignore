@@ -158,3 +158,4 @@ Desktop.ini
 /coverage/
 /.nyc_output/
 package-lock.json
+package.json
