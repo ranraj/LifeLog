@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { IEventLogBook } from '../event-log-book.model';
+import { EventLogBook, IEventLogBook } from '../event-log-book.model';
 import { EventLogBookService } from '../service/event-log-book.service';
 import { EventLogBookDeleteDialogComponent } from '../delete/event-log-book-delete-dialog.component';
+import { FormBuilder, NgForm } from '@angular/forms';
+import { finalize } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'jhi-event-log-book',
@@ -14,8 +17,13 @@ import { EventLogBookDeleteDialogComponent } from '../delete/event-log-book-dele
 export class EventLogBookComponent implements OnInit {
   eventLogBooks: IEventLogBook[] = [];
   isLoading = false;
+  eventRef?: IEventLogBook;
 
-  constructor(protected eventLogBookService: EventLogBookService, protected modalService: NgbModal) {}
+  @ViewChild('content') content?: TemplateRef<any>;
+  httpClient: any;
+  isSaving?: boolean;
+
+  constructor(protected eventLogBookService: EventLogBookService, protected modalService: NgbModal, protected fb: FormBuilder) {}
 
   loadAll(): void {
     this.isLoading = true;
@@ -48,5 +56,52 @@ export class EventLogBookComponent implements OnInit {
         this.loadAll();
       }
     });
+  }
+
+  onEdit(eventLogBook: IEventLogBook): void {
+    this.eventRef = eventLogBook;
+    this.modalService.open(this.content);
+  }
+
+  onSubmit(editForm: NgForm): void {
+    this.isSaving = true;
+    const eventLogBook = this.createFromForm(editForm.value);
+    if (eventLogBook.id !== undefined) {
+      this.subscribeToSaveResponse(this.eventLogBookService.update(eventLogBook));
+    } else {
+      this.subscribeToSaveResponse(this.eventLogBookService.create(eventLogBook));
+    }
+    this.modalService.dismissAll();
+  }
+
+  protected createFromForm(editForm: IEventLogBook): IEventLogBook {
+    const book = this.eventLogBooks.find(books => books.uuid === editForm.uuid);
+    return {
+      ...new EventLogBook(),
+      ...book,
+      ...editForm,
+    };
+  }
+
+  protected subscribeToSaveResponse(result: Observable<HttpResponse<IEventLogBook>>): void {
+    result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
+      next: res => this.onSaveSuccess(res.body ?? {}),
+      error: () => this.onSaveError(),
+    });
+  }
+
+  protected onSaveFinalize(): void {
+    this.isSaving = false;
+  }
+
+  protected onSaveSuccess(res: IEventLogBook): void {
+    const book = this.eventLogBooks.findIndex(books => books.uuid === res.uuid);
+    if (book >= 0 && this.eventLogBooks[book]) {
+      this.eventLogBooks[book] = res;
+    }
+  }
+
+  protected onSaveError(): void {
+    // Api for inheritance.
   }
 }

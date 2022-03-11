@@ -4,6 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
+import { v4 as uuidv4 } from 'uuid';
 
 import { IEventLog, EventLog } from '../event-log.model';
 import { EventLogService } from '../service/event-log.service';
@@ -161,7 +162,7 @@ export class EventLogUpdateComponent implements OnInit {
     return {
       ...new EventLog(),
       id: this.editForm.get(['id'])!.value,
-      uuid: this.editForm.get(['uuid'])!.value,
+      uuid: uuidv4(),
       name: this.editForm.get(['name'])!.value,
       detail: this.editForm.get(['detail'])!.value,
       createdDate: this.editForm.get(['createdDate'])!.value ? this.editForm.get(['createdDate'])!.value : dayjs(date),
