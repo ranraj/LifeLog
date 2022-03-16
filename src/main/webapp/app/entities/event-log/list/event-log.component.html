@@ -34,7 +34,7 @@
     <span jhiTranslate="lifeLogApp.eventLog.home.notFound">No eventLogs found</span>
   </div>
 
-  <div class="table-responsive" id="entities" *ngIf="eventLogs && eventLogs.length > 0">
+  <div class="table-responsive" id="entities" *ngIf="filteredAndSortedEventLogs && filteredAndSortedEventLogs.length > 0">
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
         <tr>
@@ -86,12 +86,7 @@
                 <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
               </button>
 
-              <button
-                type="submit"
-                [routerLink]="['/event-log', eventLog.id, 'edit']"
-                class="btn btn-primary btn-sm"
-                data-cy="entityEditButton"
-              >
+              <button type="submit" class="btn btn-primary btn-sm" data-cy="entityEditButton" (click)="onEdit(eventLog)">
                 <fa-icon icon="pencil-alt"></fa-icon>
                 <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
               </button>
@@ -107,3 +102,91 @@
     </table>
   </div>
 </div>
+
+<!-- Pop up for edit -->
+
+<ng-template #content let-modal>
+  <div class="modal-header" *ngIf="eventLogRef">
+    <h4 class="modal-title" id="modal-basic-title">Event log {{ eventLogRef?.id }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" *ngIf="eventLogRef">
+    <form (ngSubmit)="onSubmit(editForm)" #editForm="ngForm">
+      <div class="form-group">
+        <label for="uuid">UUID</label>
+        <div class="input-group">
+          <input id="uuid" name="uuid" class="form-control" ngModel="{{ eventLogRef.uuid }}" readonly />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="name">Name</label>
+        <div class="input-group">
+          <input id="name" class="form-control" name="name" ngModel="{{ eventLogRef.name }}" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="detail">Detail</label>
+        <div class="input-group">
+          <input id="detail" name="detail" class="form-control" ngModel="{{ eventLogRef.detail }}" />
+        </div>
+      </div>
+
+      <!-- User Dropdown -->
+
+      <div class="form-group">
+        <label for="field_user">User</label>
+        <select class="form-control" id="field_user" data-cy="user" name="user" [ngModel]="eventLogRef.user">
+          <option [ngValue]="null"></option>
+          <option
+            [ngValue]="userOption.id === eventLogRef.user?.id ? eventLogRef.user!.login : userOption"
+            *ngFor="let userOption of usersSharedCollection; trackBy: trackUserById"
+          >
+            {{ userOption.login }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Tags Dropdown -->
+
+      <div class="form-group">
+        <label for="field_tags">Tags</label>
+        <select class="form-control" id="field_tags" data-cy="tags" multiple name="tags" [ngModel]="eventLogRef.tags">
+          <option
+            [ngValue]="getSelectedTags(tagsOption, eventLogRef?.tags ?? [])"
+            *ngFor="let tagsOption of tagsSharedCollection; trackBy: trackTagsById"
+          >
+            {{ tagsOption.id }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Log Book Dropdown -->
+
+      <div class="form-group">
+        <label for="field_eventLogBook" ngModel>Event Log Book</label>
+        <select
+          class="form-control"
+          id="field_eventLogBook"
+          data-cy="eventLogBook"
+          name="eventLogBook"
+          [ngModel]="eventLogRef.eventLogBook"
+        >
+          <option [ngValue]="null"></option>
+          <option
+            [ngValue]="eventLogBookOption.id === eventLogRef.eventLogBook?.id ? eventLogRef.eventLogBook?.id : eventLogBookOption"
+            *ngFor="let eventLogBookOption of eventLogBooksSharedCollection; trackBy: trackEventLogBookById"
+          >
+            {{ eventLogBookOption.id }}
+          </option>
+        </select>
+      </div>
+
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-outline-dark">Save</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
