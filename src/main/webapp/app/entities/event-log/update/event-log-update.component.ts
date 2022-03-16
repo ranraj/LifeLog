@@ -14,6 +14,7 @@ import { ITags } from 'app/entities/tags/tags.model';
 import { TagsService } from 'app/entities/tags/service/tags.service';
 import { IEventLogBook } from 'app/entities/event-log-book/event-log-book.model';
 import { EventLogBookService } from 'app/entities/event-log-book/service/event-log-book.service';
+import dayjs from 'dayjs/esm';
 
 @Component({
   selector: 'jhi-event-log-update',
@@ -157,14 +158,15 @@ export class EventLogUpdateComponent implements OnInit {
   }
 
   protected createFromForm(): IEventLog {
+    const date = new Date();
     return {
       ...new EventLog(),
       id: this.editForm.get(['id'])!.value,
       uuid: uuidv4(),
       name: this.editForm.get(['name'])!.value,
       detail: this.editForm.get(['detail'])!.value,
-      createdDate: this.editForm.get(['createdDate'])!.value,
-      updatedDate: this.editForm.get(['updatedDate'])!.value,
+      createdDate: this.editForm.get(['createdDate'])!.value ? this.editForm.get(['createdDate'])!.value : dayjs(date),
+      updatedDate: dayjs(date),
       user: this.editForm.get(['user'])!.value,
       tags: this.editForm.get(['tags'])!.value,
       eventLogBook: this.editForm.get(['eventLogBook'])!.value,
