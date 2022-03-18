@@ -6,10 +6,17 @@ import { EventLogBookUpdateComponent } from './update/event-log-book-update.comp
 import { EventLogBookDeleteDialogComponent } from './delete/event-log-book-delete-dialog.component';
 import { EventLogBookRoutingModule } from './route/event-log-book-routing.module';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { EventLogComponent } from '../event-log/list/event-log.component';
 
 @NgModule({
   imports: [SharedModule, EventLogBookRoutingModule, MatExpansionModule],
-  declarations: [EventLogBookComponent, EventLogBookDetailComponent, EventLogBookUpdateComponent, EventLogBookDeleteDialogComponent],
+  declarations: [
+    EventLogBookComponent,
+    EventLogBookDetailComponent,
+    EventLogBookUpdateComponent,
+    EventLogBookDeleteDialogComponent,
+    EventLogComponent,
+  ],
   entryComponents: [EventLogBookDeleteDialogComponent],
 })
 export class EventLogBookModule {}

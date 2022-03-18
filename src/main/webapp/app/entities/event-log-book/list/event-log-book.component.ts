@@ -8,6 +8,8 @@ import { EventLogBookDeleteDialogComponent } from '../delete/event-log-book-dele
 import { FormBuilder, NgForm } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { IEventLog } from 'app/entities/event-log/event-log.model';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-event-log-book',
@@ -19,11 +21,21 @@ export class EventLogBookComponent implements OnInit {
   isLoading = false;
   eventRef?: IEventLogBook;
 
+  // Show Event-Log Details in Event-Log-Book -  Created by shan 17-03
+  eventlogs?: IEventLog[] = [];
+  eventID: any;
+  reload: any;
+
   @ViewChild('content') content?: TemplateRef<any>;
   httpClient: any;
   isSaving?: boolean;
 
-  constructor(protected eventLogBookService: EventLogBookService, protected modalService: NgbModal, protected fb: FormBuilder) {}
+  constructor(
+    protected router: Router,
+    protected eventLogBookService: EventLogBookService,
+    protected modalService: NgbModal,
+    protected fb: FormBuilder
+  ) {}
 
   loadAll(): void {
     this.isLoading = true;
@@ -74,6 +86,16 @@ export class EventLogBookComponent implements OnInit {
     this.modalService.dismissAll();
   }
 
+  eventId(eventId: any): void {
+    this.eventID = eventId;
+
+    this.reload = this.router.events.subscribe(eventID => {
+      if (eventID instanceof NavigationEnd) {
+        this.router.navigated = false;
+      }
+    });
+  }
+
   protected createFromForm(editForm: IEventLogBook): IEventLogBook {
     const book = this.eventLogBooks.find(books => books.uuid === editForm.uuid);
     return {
@@ -104,4 +126,6 @@ export class EventLogBookComponent implements OnInit {
   protected onSaveError(): void {
     // Api for inheritance.
   }
+
+  // Show Event-Log Details in Event-Log-Book -  Created by shan 17-03
 }

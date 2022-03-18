@@ -42,7 +42,7 @@
     </div>
   </div>
   <div>
-    <div *ngFor="let eventLogBook of eventLogBooks; trackBy: trackId" data-cy="entityTable">
+    <div *ngFor="let eventLogBook of eventLogBooks; trackBy: trackId" data-cy="entityTable" (click)="eventId(eventLogBook.id)">
       <mat-accordion>
         <mat-expansion-panel class="event-log-table-wrapper">
           <mat-expansion-panel-header class="event-log-table">
@@ -82,7 +82,7 @@
               </div>
             </div>
           </mat-expansion-panel-header>
-          Mat-expansion-panel works!
+          <div *ngIf="eventID != '' && eventID != undefined"><jhi-event-log [eventID]="eventID"></jhi-event-log></div>
         </mat-expansion-panel>
       </mat-accordion>
     </div>

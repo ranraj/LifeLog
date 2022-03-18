@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -14,17 +14,20 @@ import { ITags } from 'app/entities/tags/tags.model';
 import { UserService } from 'app/entities/user/user.service';
 import { EventLogBookService } from 'app/entities/event-log-book/service/event-log-book.service';
 import { TagsService } from 'app/entities/tags/service/tags.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-event-log',
   templateUrl: './event-log.component.html',
 })
-export class EventLogComponent implements OnInit {
+export class EventLogComponent implements OnInit, OnDestroy {
   eventLogs: IEventLog[] = [];
   isLoading = false;
   filterEventLogs = '';
   filteredAndSortedEventLogs: IEventLog[] = [];
   orderProp: keyof IEventLog = 'name';
+  @Input() event?: IEventLogBook[];
+  @Input() eventID: any;
 
   // For Edit Pop up
 
@@ -39,13 +42,18 @@ export class EventLogComponent implements OnInit {
   eventLogBooksSharedCollection: IEventLogBook[] = [];
 
   constructor(
+    protected router: Router,
     protected eventLogService: EventLogService,
     protected modalService: NgbModal,
     protected fb: FormBuilder,
     protected userService: UserService,
     protected tagsService: TagsService,
     protected eventLogBookService: EventLogBookService
-  ) {}
+  ) {
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+      return false;
+    };
+  }
 
   loadAll(): void {
     this.isLoading = true;
@@ -55,6 +63,9 @@ export class EventLogComponent implements OnInit {
         this.isLoading = false;
         this.eventLogs = res.body ?? [];
         this.filteredAndSortedEventLogs = res.body ?? [];
+        if (this.eventID !== undefined && this.eventID !== null && this.eventID !== '') {
+          this.filterById(this.filteredAndSortedEventLogs);
+        }
       },
       error: () => {
         this.isLoading = false;
@@ -64,7 +75,6 @@ export class EventLogComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadAll();
-
     this.loadRelationshipsOptions();
   }
 
@@ -86,16 +96,30 @@ export class EventLogComponent implements OnInit {
   // Filtering based on name
 
   filterAndSortEventLogs(): void {
+    // filteredAndSortedEventLogs
+
     this.filteredAndSortedEventLogs = this.eventLogs
       .filter(eventLog => !this.filterEventLogs || eventLog.name?.toLowerCase().includes(this.filterEventLogs.toLowerCase()))
       .sort();
+  }
+
+  ngOnDestroy(): void {
+    console.log('data event');
+
+    // if (this.reload) {
+
+    //   this.reload.unsubscribe();
+
+    // }
   }
 
   // Clear Button Function
 
   onClear(): void {
     this.filterEventLogs = '';
-    this.filterAndSortEventLogs();
+    if (this.eventID === undefined || this.eventID === null || this.eventID === '') {
+      this.filterAndSortEventLogs();
+    }
   }
 
   onEdit(eventLog: IEventLog): void {
@@ -140,6 +164,14 @@ export class EventLogComponent implements OnInit {
       }
     }
     return option;
+  }
+
+  filterById(eventLogs: any[]): void {
+    this.filteredAndSortedEventLogs = eventLogs.filter(arr => {
+      if (arr.eventLogBook?.id === this.eventID && this.eventID !== undefined) {
+        return arr;
+      }
+    });
   }
 
   protected loadRelationshipsOptions(): void {
@@ -192,10 +224,13 @@ export class EventLogComponent implements OnInit {
     if (selectedLog >= 0 && this.eventLogs[selectedLog]) {
       this.eventLogs[selectedLog] = res;
       this.filteredAndSortedEventLogs[selectedLog] = res;
+      // this.eventLogs[selectedLog] = res;
     }
   }
 
   protected onSaveError(): void {
     // Api for inheritance.
   }
+
+  // Show Event-Log Details in Event-Log-Book - Created by shan 17-03
 }
