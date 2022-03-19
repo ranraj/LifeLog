@@ -81,8 +81,8 @@
                 </div>
               </div>
             </div>
-          </mat-expansion-panel-header>
-          <div *ngIf="eventID != '' && eventID != undefined"><jhi-event-log [eventID]="eventID"></jhi-event-log></div>
+          </mat-expansion-panel-header>           
+            <jhi-event-log [eventID]="eventLogBook.id"></jhi-event-log>          
         </mat-expansion-panel>
       </mat-accordion>
     </div>
