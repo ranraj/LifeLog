@@ -4,7 +4,8 @@ import { NIL } from 'uuid';
 import { EventLogBook,IEventLogBook } from 'app/entities/event-log-book/event-log-book.model';
 import { EventLogBookService } from 'app/entities/event-log-book/service/event-log-book.service';
 import { HttpResponse } from '@angular/common/http';
-import { CommonService } from 'app/entities/event-log-book/service/event-log-pub-service';
+import { CommonService, EventLogReloadRequest } from 'app/entities/event-log-book/service/event-log-pub-service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'jhi-books-n-logs',
@@ -13,9 +14,11 @@ import { CommonService } from 'app/entities/event-log-book/service/event-log-pub
 })
 
 export class BooksNLogsComponent implements OnInit {
+  private subscriptionName: Subscription;
   isLoading = false;
   eventLogBooks: IEventLogBook[] = [];
   eventID?: number;
+  reloadRequest?: EventLogReloadRequest;
 
   ngOnInit(): void {
     this.loadAll();
@@ -25,8 +28,16 @@ export class BooksNLogsComponent implements OnInit {
     protected router: Router,
     private route: ActivatedRoute,
     protected eventLogBookService: EventLogBookService,            
-    protected service: CommonService,
-  ) {}
+    protected commonService: CommonService,
+  ) {
+    this.subscriptionName= this.commonService.getUpdate().subscribe
+    (message => { //message contains the data sent from service
+        console.log('received',message);
+        this.reloadRequest = message;
+        this.eventID = message.id;
+        this.loadAll();
+    });
+  }
 
 
   loadAll(): void {    
@@ -48,7 +59,6 @@ export class BooksNLogsComponent implements OnInit {
   }
   reloadRequestToEventLog(id: number): void {
     // send message to subscribers via observable subject
-    this.service.sendUpdate(id);
-  }
-
+    this.commonService.sendUpdate(id);
+  }   
 }
