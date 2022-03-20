@@ -9,6 +9,23 @@
         <button class="mx-2 btn btn-dark" (click)="onClear()">Clear</button>
       </div>
 
+      <!-- date picker -->
+      <div class="row m-3 mt-5">
+        <mat-form-field appearance="fill">
+          <!-- <mat-label>Enter a date range</mat-label> -->
+          <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+            <input matStartDate formControlName="start" placeholder="Start date" />
+            <input matEndDate formControlName="end" placeholder="End date" />
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+          <button type="submit" (click)="sortdate()">search</button>
+
+          <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+          <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+        </mat-form-field>
+      </div>
+
       <div class="d-flex justify-content-end">
         <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
           <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
