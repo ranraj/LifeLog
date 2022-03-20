@@ -93,6 +93,7 @@
     "bootstrap": "^4.6.1",
     "dayjs": "1.10.7",
     "font-awesome": "^4.7.0",
+    "ng-cdbangular": "^1.0.0",
     "ngx-infinite-scroll": "10.0.1",
     "ngx-webstorage": "9.0.0",
     "rxjs": "7.5.2",
@@ -143,7 +144,7 @@
     "webpack-notifier": "1.15.0"
   },
   "engines": {
-    "node": ">=16.13.1"
+    "node": ">=16.0.0"
   },
   "cacheDirectories": [
     "node_modules"

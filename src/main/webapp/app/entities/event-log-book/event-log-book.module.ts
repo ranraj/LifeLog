@@ -7,15 +7,18 @@ import { EventLogBookDeleteDialogComponent } from './delete/event-log-book-delet
 import { EventLogBookRoutingModule } from './route/event-log-book-routing.module';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { EventLogComponent } from '../event-log/list/event-log.component';
+import { BookSideBarComponent } from './list/book-side-bar/book-side-bar.component';
+import {SidebarModule } from 'ng-cdbangular';
 
 @NgModule({
-  imports: [SharedModule, EventLogBookRoutingModule, MatExpansionModule],
+  imports: [SharedModule, EventLogBookRoutingModule, MatExpansionModule,SidebarModule],
   declarations: [
     EventLogBookComponent,
     EventLogBookDetailComponent,
     EventLogBookUpdateComponent,
     EventLogBookDeleteDialogComponent,
     EventLogComponent,
+    BookSideBarComponent,
   ],
   entryComponents: [EventLogBookDeleteDialogComponent],
 })

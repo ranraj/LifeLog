@@ -4,12 +4,14 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { EventLogBook, IEventLogBook } from '../event-log-book.model';
 import { EventLogBookService } from '../service/event-log-book.service';
+import { CommonService } from '../service/event-log-pub-service';
 import { EventLogBookDeleteDialogComponent } from '../delete/event-log-book-delete-dialog.component';
 import { FormBuilder, NgForm } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { IEventLog } from 'app/entities/event-log/event-log.model';
-import { NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { NIL } from 'uuid';
 
 @Component({
   selector: 'jhi-event-log-book',
@@ -23,7 +25,7 @@ export class EventLogBookComponent implements OnInit {
 
   // Show Event-Log Details in Event-Log-Book -  Created by shan 17-03
   eventlogs?: IEventLog[] = [];
-  eventID: any;
+  eventID?: number;
   reload: any;
 
   @ViewChild('content') content?: TemplateRef<any>;
@@ -32,12 +34,14 @@ export class EventLogBookComponent implements OnInit {
 
   constructor(
     protected router: Router,
+    private route: ActivatedRoute,
     protected eventLogBookService: EventLogBookService,
     protected modalService: NgbModal,
-    protected fb: FormBuilder
+    protected fb: FormBuilder,
+    protected service: CommonService,
   ) {}
 
-  loadAll(): void {
+  loadAll(): void {    
     this.isLoading = true;
 
     this.eventLogBookService.query().subscribe({
@@ -51,8 +55,22 @@ export class EventLogBookComponent implements OnInit {
     });
   }
 
+  reloadRequestToEventLog(id: number): void {
+    // send message to subscribers via observable subject
+    this.service.sendUpdate(id);
+  }
+
   ngOnInit(): void {
+    let id = this.route.snapshot.paramMap.get('id');
+    if(id){ this.eventID = parseInt(id);}
+    console.log('eventId',this.eventID);
     this.loadAll();
+  }
+
+  bookIdEventHander($event: any) {
+    console.log("book ",$event);
+    this.reloadRequestToEventLog($event);
+    this.eventID = $event;
   }
 
   trackId(index: number, item: IEventLogBook): number {

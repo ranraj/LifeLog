@@ -1,0 +1,26 @@
+<CDBSidebar textColor="#ffffff" backgroundColor="#333333">
+    <CDBSidebarHeader [prefix]="icon" >
+        <ng-template #icon>
+            <i class="fa fa-bars fa-large"></i>
+        </ng-template>
+
+        Log Books
+    </CDBSidebarHeader>
+
+    <CDBSidebarContent>
+        <CDBSidebarMenu class="sidebar-content" *ngFor="let eventLogBook of eventLogBooks;">
+            <a (click)="onBookIdChange(eventLogBook.id)" icon="columns" >
+                {{eventLogBook.name}}                   
+            </a>               
+                                      
+        </CDBSidebarMenu>
+    </CDBSidebarContent>
+    <div class="mt-auto">
+
+        <CDBSidebarFooter style="text-align: center; margin-top: auto;">
+            <div class="sidebar-btn-wrapper" style="padding: 20px 5px">
+                Sidebar Footer
+            </div>
+        </CDBSidebarFooter>
+    </div>
+</CDBSidebar>

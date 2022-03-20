@@ -10,17 +10,19 @@ import { finalize, map, Observable } from 'rxjs';
 import { IUser } from 'app/admin/user-management/user-management.model';
 import { IEventLogBook } from 'app/entities/event-log-book/event-log-book.model';
 import { ITags } from 'app/entities/tags/tags.model';
-
+import { CommonService ,EventLogReloadRequest} from 'app/entities/event-log-book/service/event-log-pub-service';
 import { UserService } from 'app/entities/user/user.service';
 import { EventLogBookService } from 'app/entities/event-log-book/service/event-log-book.service';
 import { TagsService } from 'app/entities/tags/service/tags.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'jhi-event-log',
   templateUrl: './event-log.component.html',
 })
 export class EventLogComponent implements OnInit, OnDestroy {
+  private subscriptionName: Subscription;
   eventLogs: IEventLog[] = [];
   isLoading = false;
   filterEventLogs = '';
@@ -40,6 +42,7 @@ export class EventLogComponent implements OnInit, OnDestroy {
   usersSharedCollection: IUser[] = [];
   tagsSharedCollection: ITags[] = [];
   eventLogBooksSharedCollection: IEventLogBook[] = [];
+  reloadRequest?: EventLogReloadRequest;
 
   constructor(
     protected router: Router,
@@ -48,14 +51,23 @@ export class EventLogComponent implements OnInit, OnDestroy {
     protected fb: FormBuilder,
     protected userService: UserService,
     protected tagsService: TagsService,
-    protected eventLogBookService: EventLogBookService
+    protected eventLogBookService: EventLogBookService,
+    protected commonService: CommonService,
   ) {
     this.router.routeReuseStrategy.shouldReuseRoute = function () {
       return false;
     };
+    this.subscriptionName= this.commonService.getUpdate().subscribe
+    (message => { //message contains the data sent from service
+      console.log('received',message);
+        this.reloadRequest = message;
+        this.eventID = message.id;
+        this.loadAll();
+    });
   }
 
   loadAll(): void {
+    console.log("event log",this.eventID);
     this.isLoading = true;
 
     this.eventLogService.query().subscribe({
@@ -105,7 +117,7 @@ export class EventLogComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     console.log('data event');
-
+    this.subscriptionName.unsubscribe();
     // if (this.reload) {
 
     //   this.reload.unsubscribe();
