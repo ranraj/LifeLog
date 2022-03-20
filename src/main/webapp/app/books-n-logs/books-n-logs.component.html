@@ -1,0 +1,13 @@
+<div class="wrapper">
+
+    <!-- Sidebar -->
+    <nav id="sidebar">        
+        <jhi-books-sidebar [eventLogBooks]="eventLogBooks" (setBookIdEvent)="bookIdEventHander($event)"></jhi-books-sidebar>
+    </nav>
+
+    <!-- Page Content -->
+    <div id="content">
+        <jhi-logs-view></jhi-logs-view>
+    </div>
+
+</div>       

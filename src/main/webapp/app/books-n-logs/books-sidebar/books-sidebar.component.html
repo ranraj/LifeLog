@@ -1,0 +1,8 @@
+<div class="sidebar-header">
+    <h3>Log Books ({{eventLogBooks.length}})</h3>
+</div>
+<ul class="list-unstyled components" *ngFor="let eventLogBook of eventLogBooks;">
+    <li>
+        <a (click)="onBookIdChange(eventLogBook.id)">{{eventLogBook.name}}</a>
+    </li>            
+</ul>  
