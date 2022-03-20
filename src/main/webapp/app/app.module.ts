@@ -28,6 +28,22 @@ import { ErrorComponent } from './layouts/error/error.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { NativeDateAdapter } from '@angular/material/core';
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'MM/YYYY',
+  },
+  display: {
+    dateInput: 'MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -44,12 +60,18 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FormsModule,
     NgbModule,
     ReactiveFormsModule,
+    MatDatepickerModule,
   ],
   providers: [
     Title,
     { provide: LOCALE_ID, useValue: 'en' },
     { provide: NgbDateAdapter, useClass: NgbDateDayjsAdapter },
     httpInterceptorProviders,
+    {
+      provide: DateAdapter,
+      useClass: NativeDateAdapter,
+    },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
   declarations: [MainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, ActiveMenuDirective, FooterComponent],
   bootstrap: [MainComponent],

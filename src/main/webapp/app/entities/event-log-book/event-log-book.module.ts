@@ -7,9 +7,10 @@ import { EventLogBookDeleteDialogComponent } from './delete/event-log-book-delet
 import { EventLogBookRoutingModule } from './route/event-log-book-routing.module';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { EventLogComponent } from '../event-log/list/event-log.component';
-
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
 @NgModule({
-  imports: [SharedModule, EventLogBookRoutingModule, MatExpansionModule],
+  imports: [SharedModule, EventLogBookRoutingModule, MatExpansionModule, MatDatepickerModule, MatFormFieldModule],
   declarations: [
     EventLogBookComponent,
     EventLogBookDetailComponent,
