@@ -1,6 +1,24 @@
 <div class="sidebar-header">
     <h3>Log Books ({{eventLogBooks.length}})</h3>
+    
 </div>
+<ul class="list-unstyled components">
+    <li>
+        <button
+                id="jh-create-entity"
+                data-cy="entityCreateButton"
+                class="btn btn-primary jh-create-entity create-event-log-book"
+                (click)="onBookIdChange(-1)"
+            >View All</button>        
+        <button
+                id="jh-create-entity"
+                data-cy="entityCreateButton"
+                class="btn btn-primary jh-create-entity create-event-log-book"
+                [routerLink]="['/event-log-book/new']"
+            >Add Book</button>
+    </li>            
+</ul>
+<hr>
 <ul class="list-unstyled components" *ngFor="let eventLogBook of eventLogBooks;">
     <li>
         <a (click)="onBookIdChange(eventLogBook.id)">{{eventLogBook.name}}</a>

@@ -6,6 +6,8 @@ import { EventLogBookService } from 'app/entities/event-log-book/service/event-l
 import { HttpResponse } from '@angular/common/http';
 import { CommonService, EventLogReloadRequest } from 'app/entities/event-log-book/service/event-log-pub-service';
 import { Subscription } from 'rxjs';
+import { Account } from 'app/core/auth/account.model';
+import { AccountService } from 'app/core/auth/account.service';
 
 @Component({
   selector: 'jhi-books-n-logs',
@@ -15,13 +17,18 @@ import { Subscription } from 'rxjs';
 
 export class BooksNLogsComponent implements OnInit {
   private subscriptionName: Subscription;
+  
   isLoading = false;
   eventLogBooks: IEventLogBook[] = [];
   eventID?: number;
   reloadRequest?: EventLogReloadRequest;
+  account: Account | null = null;
 
   ngOnInit(): void {
     this.loadAll();
+    this.accountService.getAuthenticationState().subscribe(account => {
+      this.account = account;
+    });
   }
 
   constructor(
@@ -29,7 +36,9 @@ export class BooksNLogsComponent implements OnInit {
     private route: ActivatedRoute,
     protected eventLogBookService: EventLogBookService,            
     protected commonService: CommonService,
+    private accountService: AccountService,
   ) {
+    // Subscribed to get selected book id
     this.subscriptionName= this.commonService.getUpdate().subscribe
     (message => { //message contains the data sent from service
         console.log('received',message);

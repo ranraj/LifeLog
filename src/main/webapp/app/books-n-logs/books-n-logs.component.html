@@ -1,14 +1,18 @@
-<div class="wrapper">
+<div [ngSwitch]="account !== null">
 
-    <!-- Sidebar -->
-    <nav id="sidebar">        
-        <jhi-books-sidebar [eventLogBooks]="eventLogBooks" (setBookIdEvent)="bookIdEventHander($event)"></jhi-books-sidebar>
-    </nav>
+    <div *ngSwitchCase="true" class="wrapper">
+        <!-- Sidebar -->
+        <nav id="sidebar"  >                    
+            <jhi-books-sidebar [eventLogBooks]="eventLogBooks" (setBookIdEvent)="bookIdEventHander($event)"></jhi-books-sidebar>
+        </nav>
 
-    <!-- Page Content -->
-    <div id="content">
-        Event Id : {{eventID ?? "Default"}}
-        <jhi-logs-view></jhi-logs-view>
+        <!-- Page Content -->
+        <div id="content">            
+            <h4 *ngIf="eventID">Viewing logs for book(s) : {{eventID == -1 ? "all" : eventID}}</h4>        
+            <jhi-logs-view [eventID]="eventID"></jhi-logs-view>
+        </div>
     </div>
-
+    <div *ngSwitchCase="false" class="wrapper">
+        <p><a routerLink="/login">Login</a> to view your logs</p>
+    </div>
 </div>       
